@@ -1,15 +1,9 @@
-cmake_minimum_required( VERSION 3.5.2 )
+cmake_minimum_required( VERSION 3.25.0 )
 
 project( hl1_source_sdk )
 
 set( CMAKE_FOLDER "Source SDK" )
 set( SOURCE_SDK_ROOT ${CMAKE_CURRENT_SOURCE_DIR} )
-
-# Add "cmake" to module path
-set( CMAKE_MODULE_PATH
-	${CMAKE_MODULE_PATH}
-	${SOURCE_SDK_ROOT}/cmake
-)
 
 # DLL extension macro
 if( WIN32 )
@@ -84,7 +78,8 @@ if( SOURCE_SDK_NO_STEAM )
 		NO_STEAM
 	)
 else()
-	find_package( steam_api MODULE REQUIRED )
+	include( cmake/lib/steam_api.cmake )
+
 	set( STEAM_API_LIBRARIES
 		steam_api
 	)
@@ -129,8 +124,8 @@ set( SOURCE_SDK_WARNING_LEVEL "")
 #-----------------------------------------------------------------
 # Dynamic libraries from the engine
 #-----------------------------------------------------------------
-find_package( tier0 MODULE REQUIRED )
-find_package( vstdlib MODULE REQUIRED )
+include( cmake/lib/tier0.cmake )
+include( cmake/lib/vstdlib.cmake )
 
 #-----------------------------------------------------------------
 # Static libraries
